@@ -3,10 +3,12 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { CupcakeClickerComponent } from './components/cupcake-clicker/cupcake-clicker.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    CupcakeClickerComponent
   ],
   imports: [
     BrowserModule,
