@@ -9,7 +9,17 @@ export class CupcakeClickerComponent implements OnInit {
 
   constructor() { }
 
+  clickCount = 0;
+
   ngOnInit(): void {
   }
 
+  handleCupcakeClick(): void {
+    this.incrementClickCounter();
+    console.log(this.clickCount);
+  }
+
+  incrementClickCounter(): void {
+    this.clickCount++;
+  }
 }

@@ -22,4 +22,20 @@ describe('CupcakeClickerComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('component functions', () => {
+    it('should increment the count by 1 when the incremntCount function is called', () => {
+      component.clickCount = 0;
+      component.incrementClickCounter();
+      expect(component.clickCount).toEqual(1);
+    });
+  });
+
+  describe('cupcake clicked', () => {
+    it('should call the incrementCount function when clicked', () => {
+      spyOn(component, "incrementClickCounter");
+      fixture.debugElement.nativeElement.querySelector('.cupcake').click();
+      expect(component.incrementClickCounter).toHaveBeenCalled();
+    });
+  });
 });
