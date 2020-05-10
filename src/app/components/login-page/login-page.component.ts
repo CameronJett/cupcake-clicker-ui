@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from "@angular/forms"
 import { Router } from '@angular/router';
+import { UserService } from 'src/app/services/user.service';
+import { User } from '../../models/user'
 
 @Component({
   selector: 'app-login-page',
@@ -11,7 +13,7 @@ export class LoginPageComponent implements OnInit {
 
   fg: FormGroup
 
-  constructor(private route: Router) { }
+  constructor(private route: Router, private userService: UserService) { }
 
   ngOnInit(): void {
     this.fg = new FormGroup({
@@ -20,6 +22,11 @@ export class LoginPageComponent implements OnInit {
   }
 
   onFormSubmit(): void {
-    this.route.navigate(["cupcake-clicker"]);
+    this.userService.getUserByName(this.fg.get('name').value).subscribe({
+      next: (user: User) => {
+        console.log("user", user);
+        this.route.navigate(["cupcake-clicker"]);
+      }
+    });
   }
 }

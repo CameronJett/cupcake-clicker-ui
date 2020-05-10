@@ -16,7 +16,6 @@ export class CupcakeClickerComponent implements OnInit {
 
   handleCupcakeClick(): void {
     this.incrementClickCounter();
-    console.log(this.clickCount);
   }
 
   incrementClickCounter(): void {
