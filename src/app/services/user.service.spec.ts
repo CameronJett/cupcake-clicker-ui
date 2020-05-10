@@ -13,7 +13,7 @@ describe('UserService', () => {
 
   const MOCK_USER: User = {
     name: "username",
-    clicks: 1
+    clicks: 0
   }
 
   beforeEach(() => {
@@ -22,7 +22,7 @@ describe('UserService', () => {
     });
     service = TestBed.inject(UserService);
 
-    mockHttp = jasmine.createSpyObj('HttpClient', ['get']);
+    mockHttp = jasmine.createSpyObj('HttpClient', ['get', 'post']);
     userService = new UserService(mockHttp);
   });
 
@@ -36,5 +36,13 @@ describe('UserService', () => {
       expect(response).toEqual(MOCK_USER);
     })
     expect(mockHttp.get).toHaveBeenCalledWith(`http://localhost:8080/${MOCK_USER.name}`)
+  });
+
+  it('should return a user when createNewUser function is called', () => {
+    (mockHttp.post as jasmine.Spy).and.returnValue(of(<User>(MOCK_USER)));
+    userService.createNewUser(MOCK_USER.name).subscribe(response => {
+      expect(response).toEqual(MOCK_USER);
+    });
+    expect(mockHttp.post).toHaveBeenCalledWith(`http://localhost:8080`, MOCK_USER.name)
   });
 });

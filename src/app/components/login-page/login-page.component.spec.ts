@@ -13,7 +13,7 @@ describe('LoginPageComponent', () => {
   let router: Router;
   let fixture: ComponentFixture<LoginPageComponent>;
   let userService: UserService;
-  const userServiceSpy = jasmine.createSpyObj('UserService', ['getUserByName']);
+  const userServiceSpy = jasmine.createSpyObj('UserService', ['getUserByName', 'createNewUser']);
 
   const MOCK_USER: User = {
     name: "username",
@@ -38,8 +38,11 @@ describe('LoginPageComponent', () => {
 
     spyOn(router, 'navigate');
     (userService.getUserByName as jasmine.Spy).and.returnValue(of(MOCK_USER));
+    (userService.createNewUser as jasmine.Spy).and.returnValue(of(MOCK_USER));
 
     component = fixture.componentInstance;
+    fixture.detectChanges();
+    component.fg.get("name").setValue(MOCK_USER.name);
     fixture.detectChanges();
   });
 
@@ -55,12 +58,33 @@ describe('LoginPageComponent', () => {
 
     it('should get the user info from the userService when user clicks on login', () => {
       fixture.debugElement.nativeElement.querySelector('#login-button').click();
-      expect(router.navigate).toHaveBeenCalledWith(["cupcake-clicker"]);
-    })
+      expect(userService.getUserByName).toHaveBeenCalledWith(MOCK_USER.name);
+    });
 
     it('should route to the cupcake clicker page when user clicks on create user', () => {
       fixture.debugElement.nativeElement.querySelector('#create-button').click();
       expect(router.navigate).toHaveBeenCalledWith(["cupcake-clicker"])
+    });
+
+    it('should create a new user with the userService when user clicks on create new user', () => {
+      fixture.debugElement.nativeElement.querySelector('#create-button').click();
+      expect(userService.createNewUser).toHaveBeenCalledWith(MOCK_USER.name);
+    });
+
+    it('should not call onFormSubmit when the user has not entered any data into the name field and clicked login', () => {
+      component.fg.get("name").setValue('');
+      fixture.detectChanges();
+      spyOn(component, 'onFormSubmit');
+      fixture.debugElement.nativeElement.querySelector('#login-button').click();
+      expect(component.onFormSubmit).not.toHaveBeenCalled();
+    });
+
+    it('should not call onFormSubmit when the user has not entered any data into the name field and clicked create user', () => {
+      component.fg.get("name").setValue('');
+      fixture.detectChanges();
+      spyOn(component, 'onFormSubmit');
+      fixture.debugElement.nativeElement.querySelector('#create-button').click();
+      expect(component.onFormSubmit).not.toHaveBeenCalled();
     });
   });
 });

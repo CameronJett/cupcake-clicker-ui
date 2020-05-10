@@ -2,6 +2,6 @@
 
 <form [formGroup]='fg' (ngSubmit)="onFormSubmit()">
     Name: <input formControlName="name" placeholder="Enter user name">
-    <button id="login-button" type="submit">Login</button>
-    <button id="create-button" type="submit">Create User</button>
+    <button id="login-button" [disabled]="fg.invalid" (click)="buttonClicked = 'login'" type="submit">Login</button>
+    <button id="create-button" [disabled]="fg.invalid" (click)="buttonClicked = 'create'" type="submit">Create User</button>
 </form>

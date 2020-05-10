@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from "@angular/forms"
+import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl } from "@angular/forms"
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { User } from '../../models/user'
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-login-page',
@@ -12,21 +13,34 @@ import { User } from '../../models/user'
 export class LoginPageComponent implements OnInit {
 
   fg: FormGroup
+  buttonClicked: string;
 
-  constructor(private route: Router, private userService: UserService) { }
+  constructor(private route: Router, private userService: UserService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    this.fg = new FormGroup({
-      name: new FormControl()
+    this.fg = this.fb.group({
+      name: ['', [Validators.required],
+        this.checkValidName]
     });
   }
 
   onFormSubmit(): void {
-    this.userService.getUserByName(this.fg.get('name').value).subscribe({
-      next: (user: User) => {
-        console.log("user", user);
-        this.route.navigate(["cupcake-clicker"]);
-      }
-    });
+    if (this.buttonClicked === 'login') {
+      this.userService.getUserByName(this.fg.get('name').value).subscribe({
+        next: (user: User) => {
+          this.route.navigate(["cupcake-clicker"]);
+        }
+      });
+    } else if (this.buttonClicked === 'create') {
+      this.userService.createNewUser(this.fg.get('name').value).subscribe({
+        next: (user: User) => {
+          this.route.navigate(["cupcake-clicker"]);
+        }
+      });
+    }
+  }
+
+  checkValidName(control: AbstractControl) {
+    return of(control.value > 0);
   }
 }
