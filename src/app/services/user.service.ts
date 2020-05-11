@@ -20,6 +20,10 @@ export class UserService {
   }
 
   saveData(user: User): Observable<User> {
-    return this.httpClient.post<User>(`${this.URL}/save`, user);
+    return this.httpClient.put<User>(`${this.URL}/save`, user);
+  }
+
+  deleteUser(name: string): Observable<User> {
+    return this.httpClient.delete<User>(`${this.URL}/${name}`);
   }
 }

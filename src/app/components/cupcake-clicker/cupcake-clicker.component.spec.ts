@@ -5,14 +5,17 @@ import { UserDataService } from 'src/app/services/user-data.service';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
 import { of } from 'rxjs';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('CupcakeClickerComponent', () => {
   let component: CupcakeClickerComponent;
   let fixture: ComponentFixture<CupcakeClickerComponent>;
   let dataService: UserDataService;
   let userService: UserService;
-  const dataServiceSpy = jasmine.createSpyObj('UserDataService', ['getUser', 'setUser']);
-  const userServiceSpy = jasmine.createSpyObj('UserService', ['saveData']);
+  const dataServiceSpy = jasmine.createSpyObj('UserDataService', ['getUser', 'setUser', 'setDeletedFlag']);
+  const userServiceSpy = jasmine.createSpyObj('UserService', ['saveData', 'deleteUser']);
+  let router: Router;
 
   const MOCK_USER: User = {
     name: "username",
@@ -22,6 +25,7 @@ describe('CupcakeClickerComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ CupcakeClickerComponent ],
+      imports: [ RouterTestingModule ],
       providers: [ 
         { provide: UserService, useValue: userServiceSpy },
         { provide: UserDataService, useValue: dataServiceSpy }
@@ -34,9 +38,12 @@ describe('CupcakeClickerComponent', () => {
     fixture = TestBed.createComponent(CupcakeClickerComponent);
     dataService = TestBed.get(UserDataService);
     userService = TestBed.get(UserService);
+    router = TestBed.get(Router);
 
+    spyOn(router, 'navigate');
     (dataService.getUser as jasmine.Spy).and.returnValue(MOCK_USER);
     (userService.saveData as jasmine.Spy).and.returnValue(of(MOCK_USER));
+    (userService.deleteUser as jasmine.Spy).and.returnValue(of("{ \"response\": \"DELETE_SUCCESSFUL\" }"));
 
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -95,5 +102,15 @@ describe('CupcakeClickerComponent', () => {
     fixture.debugElement.nativeElement.querySelector('#saved-notification').click();
     fixture.detectChanges();
     expect(fixture.debugElement.nativeElement.querySelector('#saved-notification')).toBeFalsy();
+  });
+
+  it('should call setDeletedFlag data service when the deleted button is clicked and successful', () => {
+    fixture.debugElement.nativeElement.querySelector('#delete-button').click();
+    expect(userService.deleteUser).toHaveBeenCalledWith(MOCK_USER.name);
+  });
+
+  it('should route to login page when the delete button is clicked and successful', () => {
+    fixture.debugElement.nativeElement.querySelector('#delete-button').click();
+    expect(router.navigate).toHaveBeenCalledWith([""]);
   });
 });

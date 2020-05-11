@@ -22,7 +22,7 @@ describe('UserService', () => {
     });
     service = TestBed.inject(UserService);
 
-    mockHttp = jasmine.createSpyObj('HttpClient', ['get', 'post']);
+    mockHttp = jasmine.createSpyObj('HttpClient', ['get', 'post', 'put', 'delete']);
     userService = new UserService(mockHttp);
   });
 
@@ -47,10 +47,18 @@ describe('UserService', () => {
   });
   
   it('should return the saved user when saveData function is called', () => {
-    (mockHttp.post as jasmine.Spy).and.returnValue(of(<User>(MOCK_USER)));
+    (mockHttp.put as jasmine.Spy).and.returnValue(of(<User>(MOCK_USER)));
     userService.saveData(MOCK_USER).subscribe(response => {
       expect(response).toEqual(MOCK_USER);
     });
-    expect(mockHttp.post).toHaveBeenCalledWith(`http://localhost:8080/save`, MOCK_USER)
+    expect(mockHttp.put).toHaveBeenCalledWith(`http://localhost:8080/save`, MOCK_USER)
+  });  
+
+  it('should return deleted user when delete function is called', () => {
+    (mockHttp.delete as jasmine.Spy).and.returnValue(of(<User>(MOCK_USER)));
+    userService.deleteUser(MOCK_USER.name).subscribe(response => {
+      expect(response).toEqual(MOCK_USER);
+    });
+    expect(mockHttp.delete).toHaveBeenCalledWith(`http://localhost:8080/${MOCK_USER.name}`)
   });  
 });

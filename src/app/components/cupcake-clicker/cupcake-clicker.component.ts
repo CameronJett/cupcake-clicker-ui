@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserDataService } from 'src/app/services/user-data.service';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cupcake-clicker',
@@ -10,7 +11,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class CupcakeClickerComponent implements OnInit {
 
-  constructor(private userService: UserService, private dataService: UserDataService) { }
+  constructor(private route: Router, private userService: UserService, private dataService: UserDataService) { }
 
   user: User;
   saved: boolean = false;
@@ -28,6 +29,15 @@ export class CupcakeClickerComponent implements OnInit {
       next: (user: User) => {
         this.dataService.setUser(user);
         this.saved = true;
+      }
+    });
+  }
+
+  handleDeleteClick(): void {
+    this.userService.deleteUser(this.user.name).subscribe({
+      next: (response: User) => {
+        this.dataService.setDeletedFlag(true);
+        this.route.navigate([""]);
       }
     });
   }

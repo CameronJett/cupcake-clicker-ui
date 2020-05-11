@@ -10,6 +10,8 @@ export class UserDataService {
     clicks: 0
   }
 
+  deletedFlag: boolean = false;
+
   constructor() { }
 
   setUser(user: User): void {
@@ -18,5 +20,13 @@ export class UserDataService {
 
   getUser(): User {
     return this.user;
+  }
+
+  setDeletedFlag(deleted: boolean): void {
+    this.deletedFlag = deleted;
+  }
+
+  getDeletedFlag(): boolean {
+    return this.deletedFlag;
   }
 }

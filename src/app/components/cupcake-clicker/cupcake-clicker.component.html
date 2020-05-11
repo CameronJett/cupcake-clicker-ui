@@ -3,5 +3,6 @@
 <p>{{ user.clicks }}</p>
 
 <button id="save-button" (click)="this.handleSaveClick()">Save</button>
+<button id="delete-button" (click)="this.handleDeleteClick()">Delete</button>
 
 <h3 id='saved-notification' *ngIf="this.saved" (click)="this.saved=false">DATA SAVED!</h3>

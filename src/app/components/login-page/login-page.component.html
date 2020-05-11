@@ -7,3 +7,5 @@
     <button id="login-button" [disabled]="fg.invalid" (click)="buttonClicked = 'login'" type="submit">Login</button>
     <button id="create-button" [disabled]="fg.invalid" (click)="buttonClicked = 'create'" type="submit">Create User</button>
 </form>
+
+<h3 id='deleted-notification' *ngIf="this.deletedFlag" (click)="this.deletedFlag=false">USER DELETED!</h3>

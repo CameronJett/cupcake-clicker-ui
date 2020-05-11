@@ -16,7 +16,7 @@ describe('LoginPageComponent', () => {
   let userService: UserService;
   let dataService: UserDataService;
   const userServiceSpy = jasmine.createSpyObj('UserService', ['getUserByName', 'createNewUser']);
-  const dataServiceSpy = jasmine.createSpyObj('UserDataService', ['setUser']);
+  const dataServiceSpy = jasmine.createSpyObj('UserDataService', ['setUser', 'getDeletedFlag']);
 
   const MOCK_USER: User = {
     name: "username",
@@ -25,14 +25,14 @@ describe('LoginPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LoginPageComponent ],
-      imports: [ RouterTestingModule, ReactiveFormsModule, FormsModule ],
-      providers: [ 
+      declarations: [LoginPageComponent],
+      imports: [RouterTestingModule, ReactiveFormsModule, FormsModule],
+      providers: [
         { provide: UserService, useValue: userServiceSpy },
         { provide: UserDataService, useValue: dataServiceSpy }
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -44,6 +44,7 @@ describe('LoginPageComponent', () => {
     spyOn(router, 'navigate');
     (userService.getUserByName as jasmine.Spy).and.returnValue(of(MOCK_USER));
     (userService.createNewUser as jasmine.Spy).and.returnValue(of(MOCK_USER));
+    (dataService.getDeletedFlag as jasmine.Spy).and.returnValue(true);
 
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -53,6 +54,17 @@ describe('LoginPageComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should show the user deleted notification when user has been deleted', () => {
+    fixture.detectChanges();
+    expect(fixture.debugElement.nativeElement.querySelector('#deleted-notification')).toBeTruthy();
+  });
+
+  it('should hide the user delted notification when the deleted notification is clicked', () => {
+    fixture.debugElement.nativeElement.querySelector('#deleted-notification').click();
+    fixture.detectChanges();
+    expect(fixture.debugElement.nativeElement.querySelector('#deleted-notification')).toBeFalsy();
   });
 
   describe('on submit', () => {

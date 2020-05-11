@@ -15,6 +15,7 @@ export class LoginPageComponent implements OnInit {
 
   fg: FormGroup
   buttonClicked: string;
+  deletedFlag: boolean;
 
   constructor(private route: Router, private userService: UserService, private dataService: UserDataService, private fb: FormBuilder) { }
 
@@ -23,6 +24,8 @@ export class LoginPageComponent implements OnInit {
       name: ['', [Validators.required],
         this.checkValidName]
     });
+
+    this.deletedFlag = this.dataService.getDeletedFlag();
   }
 
   onFormSubmit(): void {

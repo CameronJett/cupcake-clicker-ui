@@ -29,4 +29,14 @@ describe('UserDataService', () => {
     expect(service.getUser().name).toEqual(MOCK_USER.name);
   });
 
+  it('should set the deletedFlag when setDeletedFlag is called', () => {
+    service.setDeletedFlag(true);
+    expect(service.deletedFlag).toEqual(true);
+  });
+
+  it('should get the deletedFlag when setDeletedFlag is called', () => {
+    service.deletedFlag = true;
+    expect(service.getDeletedFlag()).toEqual(true);
+  });
+
 });
