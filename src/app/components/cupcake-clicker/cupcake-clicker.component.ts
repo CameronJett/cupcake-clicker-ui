@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { UserDataService } from 'src/app/services/user-data.service';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-cupcake-clicker',
@@ -7,11 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CupcakeClickerComponent implements OnInit {
 
-  constructor() { }
+  constructor(private dataService: UserDataService) { }
 
-  clickCount = 0;
+  user: User;
 
   ngOnInit(): void {
+    this.user = this.dataService.getUser();
   }
 
   handleCupcakeClick(): void {
@@ -19,6 +22,6 @@ export class CupcakeClickerComponent implements OnInit {
   }
 
   incrementClickCounter(): void {
-    this.clickCount++;
+    this.user.clicks++;
   }
 }

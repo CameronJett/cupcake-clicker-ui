@@ -7,13 +7,16 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user';
 import { of } from 'rxjs';
+import { UserDataService } from 'src/app/services/user-data.service';
 
 describe('LoginPageComponent', () => {
   let component: LoginPageComponent;
   let router: Router;
   let fixture: ComponentFixture<LoginPageComponent>;
   let userService: UserService;
+  let dataService: UserDataService;
   const userServiceSpy = jasmine.createSpyObj('UserService', ['getUserByName', 'createNewUser']);
+  const dataServiceSpy = jasmine.createSpyObj('UserDataService', ['setUser']);
 
   const MOCK_USER: User = {
     name: "username",
@@ -25,7 +28,8 @@ describe('LoginPageComponent', () => {
       declarations: [ LoginPageComponent ],
       imports: [ RouterTestingModule, ReactiveFormsModule, FormsModule ],
       providers: [ 
-        { provide: UserService, useValue: userServiceSpy }
+        { provide: UserService, useValue: userServiceSpy },
+        { provide: UserDataService, useValue: dataServiceSpy }
       ]
     })
     .compileComponents();
@@ -35,6 +39,7 @@ describe('LoginPageComponent', () => {
     fixture = TestBed.createComponent(LoginPageComponent);
     router = TestBed.get(Router);
     userService = TestBed.get(UserService);
+    dataService = TestBed.get(UserDataService);
 
     spyOn(router, 'navigate');
     (userService.getUserByName as jasmine.Spy).and.returnValue(of(MOCK_USER));
@@ -85,6 +90,16 @@ describe('LoginPageComponent', () => {
       spyOn(component, 'onFormSubmit');
       fixture.debugElement.nativeElement.querySelector('#create-button').click();
       expect(component.onFormSubmit).not.toHaveBeenCalled();
+    });
+
+    it('should set the user data into the data service when user clicks on login', () => {
+      fixture.debugElement.nativeElement.querySelector('#login-button').click();
+      expect(dataService.setUser).toHaveBeenCalledWith(MOCK_USER);
+    });
+
+    it('should set the user data into the data service when user clicks on create user', () => {
+      fixture.debugElement.nativeElement.querySelector('#create-button').click();
+      expect(dataService.setUser).toHaveBeenCalledWith(MOCK_USER);
     });
   });
 });
