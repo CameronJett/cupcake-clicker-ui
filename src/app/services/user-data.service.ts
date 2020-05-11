@@ -6,6 +6,7 @@ import { User } from '../models/user';
 })
 export class UserDataService {
   user: User = {
+    id: 1,
     name: "",
     clicks: 0
   }

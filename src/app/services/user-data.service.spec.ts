@@ -6,6 +6,7 @@ import { User } from '../models/user';
 describe('UserDataService', () => {
   let service: UserDataService;
   const MOCK_USER: User = {
+    id: 1,
     name: "name",
     clicks: 1
   }

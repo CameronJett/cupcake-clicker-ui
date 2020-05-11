@@ -12,6 +12,7 @@ describe('UserService', () => {
   let userService: UserService;
 
   const MOCK_USER: User = {
+    id: 1,
     name: "username",
     clicks: 0
   }

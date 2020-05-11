@@ -18,6 +18,7 @@ describe('CupcakeClickerComponent', () => {
   let router: Router;
 
   const MOCK_USER: User = {
+    id: 1,
     name: "username",
     clicks: 1
   }

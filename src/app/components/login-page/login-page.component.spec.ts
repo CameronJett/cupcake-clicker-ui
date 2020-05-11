@@ -19,6 +19,7 @@ describe('LoginPageComponent', () => {
   const dataServiceSpy = jasmine.createSpyObj('UserDataService', ['setUser', 'getDeletedFlag']);
 
   const MOCK_USER: User = {
+    id: 1,
     name: "username",
     clicks: 1
   }
