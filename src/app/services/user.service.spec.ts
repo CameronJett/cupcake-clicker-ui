@@ -45,4 +45,12 @@ describe('UserService', () => {
     });
     expect(mockHttp.post).toHaveBeenCalledWith(`http://localhost:8080`, MOCK_USER.name)
   });
+  
+  it('should return the saved user when saveData function is called', () => {
+    (mockHttp.post as jasmine.Spy).and.returnValue(of(<User>(MOCK_USER)));
+    userService.saveData(MOCK_USER).subscribe(response => {
+      expect(response).toEqual(MOCK_USER);
+    });
+    expect(mockHttp.post).toHaveBeenCalledWith(`http://localhost:8080/save`, MOCK_USER)
+  });  
 });

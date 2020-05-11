@@ -1,3 +1,7 @@
 <img class="cupcake" src="../../../assets/cupcake.png" (click)="this.handleCupcakeClick()">
 
 <p>{{ user.clicks }}</p>
+
+<button id="save-button" (click)="this.handleSaveClick()">Save</button>
+
+<h3 id='saved-notification' *ngIf="this.saved" (click)="this.saved=false">DATA SAVED!</h3>

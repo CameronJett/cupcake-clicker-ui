@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { User } from '../models/user';
 import { Observable } from 'rxjs';
 
@@ -17,5 +17,9 @@ export class UserService {
 
   createNewUser(name: string) {
     return this.httpClient.post<User>(`${this.URL}`, name);
+  }
+
+  saveData(user: User): Observable<User> {
+    return this.httpClient.post<User>(`${this.URL}/save`, user);
   }
 }
