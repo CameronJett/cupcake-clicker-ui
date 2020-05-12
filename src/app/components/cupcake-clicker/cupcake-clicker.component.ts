@@ -42,6 +42,10 @@ export class CupcakeClickerComponent implements OnInit {
     });
   }
 
+  handleLeaderboardClick(): void {
+    this.route.navigate(["/leaderboard"]);
+  }
+
   incrementClickCounter(): void {
     this.user.clicks++;
   }

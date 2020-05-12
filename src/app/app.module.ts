@@ -7,12 +7,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CupcakeClickerComponent } from './components/cupcake-clicker/cupcake-clicker.component';
 import { LoginPageComponent } from './components/login-page/login-page.component';
 import { HttpClientModule } from '@angular/common/http';
+import { LeaderboardComponent } from './components/leaderboard/leaderboard.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CupcakeClickerComponent,
-    LoginPageComponent
+    LoginPageComponent,
+    LeaderboardComponent
   ],
   imports: [
     BrowserModule,

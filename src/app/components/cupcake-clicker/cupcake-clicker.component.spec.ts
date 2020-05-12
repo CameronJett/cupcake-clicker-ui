@@ -114,4 +114,9 @@ describe('CupcakeClickerComponent', () => {
     fixture.debugElement.nativeElement.querySelector('#delete-button').click();
     expect(router.navigate).toHaveBeenCalledWith([""]);
   });
+
+  it('should route to leaderboard page when the leaderboard button is clicked', () => {
+    fixture.debugElement.nativeElement.querySelector('#leaderboard-button').click();
+    expect(router.navigate).toHaveBeenCalledWith(["/leaderboard"]);
+  });
 });
