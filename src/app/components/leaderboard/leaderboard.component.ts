@@ -10,6 +10,7 @@ import { LeaderboardService } from 'src/app/services/leaderboard.service';
 export class LeaderboardComponent implements OnInit {
 
   userList: User[];
+  displayedColumns: string[] = ['Name', 'Score'];
 
   constructor(private leaderboardService: LeaderboardService) { }
 

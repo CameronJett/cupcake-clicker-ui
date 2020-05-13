@@ -1,0 +1,15 @@
+table {
+    margin-top: 3rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+}
+
+tr {
+    background-color: #424242;
+}
+
+td, th {
+    font-size: large;
+    color: antiquewhite;
+}

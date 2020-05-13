@@ -41,12 +41,13 @@ describe('LeaderboardComponent', () => {
   });
 
   it('should create', () => {
+    (leaderboardService.getLeaderboardList as jasmine.Spy).and.returnValue(of([]));
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should call getLeaderboardList when the page loads', () => {
-    (leaderboardService.getLeaderboardList as jasmine.Spy);
+    (leaderboardService.getLeaderboardList as jasmine.Spy).and.returnValue(of([]));
     fixture.detectChanges();
     expect(leaderboardService.getLeaderboardList).toHaveBeenCalled();
   });
@@ -57,8 +58,14 @@ describe('LeaderboardComponent', () => {
     expect(component.userList).toEqual([MOCK_USER, MOCK_USER]);
   });
 
-  it('should sort the userList when the page loads', () => {
+  it('should sort the userList when the page loads and items are out of order', () => {
     (leaderboardService.getLeaderboardList as jasmine.Spy).and.returnValue(of([MOCK_USER_LESS_CLICKS, MOCK_USER]));
+    fixture.detectChanges();
+    expect(component.userList).toEqual([MOCK_USER, MOCK_USER_LESS_CLICKS]);
+  });
+
+  it('should sort the userList when the page loads and items are in order', () => {
+    (leaderboardService.getLeaderboardList as jasmine.Spy).and.returnValue(of([MOCK_USER, MOCK_USER_LESS_CLICKS]));
     fixture.detectChanges();
     expect(component.userList).toEqual([MOCK_USER, MOCK_USER_LESS_CLICKS]);
   });

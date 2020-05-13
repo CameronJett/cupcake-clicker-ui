@@ -1,9 +1,17 @@
-<img class="cupcake" src="../../../assets/cupcake.png" (click)="this.handleCupcakeClick()">
+<img class="cupcake center" src="../../../assets/cupcake.png" (click)="this.handleCupcakeClick($event)">
 
-<p>{{ user.clicks }}</p>
+<h2>{{ user.clicks }}</h2>
 
-<button id="save-button" (click)="this.handleSaveClick()">Save</button>
-<button id="delete-button" (click)="this.handleDeleteClick()">Delete</button>
-<button id="leaderboard-button" (click)="this.handleLeaderboardClick()">Leaderboard</button>
+<mat-grid-list cols="1" rowHeight=3rem>
+    <mat-grid-tile><button mat-raised-button color="primary" id="save-button"
+            (click)="this.handleSaveClick()">Save</button></mat-grid-tile>
+    <mat-grid-tile><button mat-raised-button color="warn" id="delete-button"
+            (click)="this.handleDeleteClick()">Delete</button></mat-grid-tile>
+    <mat-grid-tile><button mat-raised-button id="leaderboard-button"
+            (click)="this.handleLeaderboardClick()">Leaderboard</button></mat-grid-tile>
+</mat-grid-list>
 
 <h3 id='saved-notification' *ngIf="this.saved" (click)="this.saved=false">DATA SAVED!</h3>
+
+<img *ngFor="let item of animatedPlusOneList" class="plusone" src="../../../assets/plusone.png"
+    class="item-{{item.id}} animate__animated animate__fadeOutUp">

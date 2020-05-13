@@ -1,0 +1,25 @@
+[class*="item-"] {
+    pointer-events: none;
+}
+
+.cupcake {
+    -webkit-user-drag: none;
+    width: 20rem;
+    height: auto;
+    margin: 2rem;
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h2 {
+    text-align: center;
+}
+
+.plusone {
+    width: 4rem;
+    height: auto;
+}

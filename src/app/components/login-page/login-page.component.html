@@ -3,9 +3,14 @@
 <br>
 
 <form [formGroup]='fg' (ngSubmit)="onFormSubmit()">
-    Name: <input formControlName="name" placeholder="Enter user name">
-    <button id="login-button" [disabled]="fg.invalid" (click)="buttonClicked = 'login'" type="submit">Login</button>
-    <button id="create-button" [disabled]="fg.invalid" (click)="buttonClicked = 'create'" type="submit">Create User</button>
+    <div>Name: <input formControlName="name" placeholder="Enter user name"></div>
+
+
+    <mat-grid-list cols="1" rowHeight=3rem>
+        <mat-grid-tile><button mat-raised-button color="primary" id="login-button" [disabled]="fg.invalid" (click)="buttonClicked = 'login'" type="submit">Login</button></mat-grid-tile>
+        <mat-grid-tile><button mat-raised-button id="create-button" [disabled]="fg.invalid" (click)="buttonClicked = 'create'" type="submit">Create User</button></mat-grid-tile>
+    </mat-grid-list>
+
 </form>
 
 <h3 id='deleted-notification' *ngIf="this.deletedFlag" (click)="this.deletedFlag=false">USER DELETED!</h3>

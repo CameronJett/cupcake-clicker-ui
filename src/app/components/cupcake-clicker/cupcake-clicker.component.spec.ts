@@ -1,12 +1,13 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 
-import { CupcakeClickerComponent } from './cupcake-clicker.component';
+import { CupcakeClickerComponent, Vector2 } from './cupcake-clicker.component';
 import { UserDataService } from 'src/app/services/user-data.service';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('CupcakeClickerComponent', () => {
   let component: CupcakeClickerComponent;
@@ -25,6 +26,7 @@ describe('CupcakeClickerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
       declarations: [ CupcakeClickerComponent ],
       imports: [ RouterTestingModule ],
       providers: [ 
@@ -74,6 +76,30 @@ describe('CupcakeClickerComponent', () => {
       fixture.debugElement.nativeElement.querySelector('.cupcake').click();
       expect(component.incrementClickCounter).toHaveBeenCalled();
     });
+
+    it('should call createPlusOneAnimation with the clicked location and correct id', () => {
+      spyOn(component, "createPlusOneAnimation");
+      const event = { x: 0, y: 0 };
+      fixture.debugElement.nativeElement.querySelector('.cupcake').click();
+      expect(component.createPlusOneAnimation).toHaveBeenCalledWith( { id: MOCK_USER.id+1, ...event });
+    });
+
+    it('should add the item-${id} style to the DOM when createPlusOneAnimation is called', () => {
+      const location: Vector2 = { id: 1, x: 0, y: 0 };
+      expect(fixture.debugElement.nativeElement.querySelector('.item-1')).toBeFalsy();
+      component.createPlusOneAnimation(location);
+      expect(fixture.debugElement.nativeElement.querySelector('.item-1')).toBeTruthy();
+    });
+
+    it('should remove the item-${id} style to the DOM when createPlusOneAnimation is called and 2 seconds pass', fakeAsync(() => {
+      const location: Vector2 = { id: 1, x: 0, y: 0 };
+      component.createPlusOneAnimation(location);
+      expect(fixture.debugElement.nativeElement.querySelector('.item-1')).toBeTruthy();
+
+      tick(2000);
+      fixture.detectChanges();
+      expect(fixture.debugElement.nativeElement.querySelector('.item-1')).toBeFalsy();
+    }));
   });
 
   describe('buttons', () => {
